@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(name='django-ajaxerrors',
-      version='1.0',
+      version='1.1',
       description='Django middleware for unhandled AJAX errors',
       author='Yaniv Aknin',
       author_email='yaniv+django.ajaxerrors@aknin.name',

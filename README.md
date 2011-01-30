@@ -11,7 +11,7 @@ As [you](http://groups.google.com/group/django-users/browse_thread/thread/820101
 
 Suggested Solution
 ------------------
-Since the problem is really about ease of development, and since I (and I suspect many other Django developers) do most of my development work locally, I figured the solution can take advantage of the server being a full fledged desktop with a modern browser and a GUI. Enter `ajaxerrors.middleware.ShowAJAXErrors`. This little middleware intercepts all unhandled view exceptions, stores the technical error page internally and uses Python's webbrowser module to direct a new browser tab at a special URL that will serve (and deallocate) the previously stored page.
+Since the problem is really about ease of development, and since I (and I suspect many other Django developers) do most of my development work locally, I figured the solution can take advantage of the server being a full fledged desktop with a modern browser and a GUI. Enter `ajaxerrors.middleware.ShowAJAXErrors`. This little middleware intercepts all unhandled view exceptions, pickles the technical error page and uses Python's webbrowser module to direct a new browser tab at a special URL that will serve (and remove) the previously stored page.
 
 All this is only triggered if `DEBUG` is true and `request.is_ajax()` (documented [here](http://docs.djangoproject.com/en/dev/ref/request-response/#django.http.HttpRequest.is_ajax)) is true, so pretty much everything you're used to in your development flow should stay the same. Sweet.
 
@@ -40,6 +40,8 @@ This package is really simple, I expect many Django developers to be able to rea
 2. `AJAXERRORS_WEBBROWSER_OPEN_KWARGS` (mapping): These keyword arguments will be passed verbatim to stdlib's [webbrowser](http://docs.python.org/library/webbrowser.html) package's `open` method. These parameters don't do much on my OSX system, but I assume they actually work on other systems and you may care.
 
 3. `AJAXERRORS_ADDITIONAL_HANDLERS` (iterable): This setting is expected to contain either handler objects or strings that represent the Python import paths of handlers (or any mixture of both). See below to read more about handlers.
+
+4. `AJAXERRORS_PATH` (string): The URL path from which the error pages will be served. It's unlikely that you'll need to change it.
 
 Handlers
 --------

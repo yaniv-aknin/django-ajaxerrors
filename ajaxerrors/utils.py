@@ -1,4 +1,6 @@
 from functools import wraps
+import os
+from contextlib import contextmanager
 import platform
 
 from django.core.exceptions import ImproperlyConfigured
@@ -41,3 +43,10 @@ def only_on(system):
         return callable
     return decor
 
+@contextmanager
+def altered_umask(umask):
+    old_umask = os.umask(umask)
+    try:
+        yield
+    finally:
+        os.umask(old_umask)
